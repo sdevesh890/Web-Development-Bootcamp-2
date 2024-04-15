@@ -13,3 +13,15 @@ The process module in Node.js allows us to get information related to the node a
 --> File System module
 We use file system module to do various operation on file such as craete , remove , add etc.
 
+
+
+                <-- EXPRESS -->
+Express is a framework which is help us
+-> start up a server to listen for requests 
+-> parse incoming requests
+-> match those requests to particular routes
+-> Craft out http & associated content.
+
+some important functions -->
+listen --> for start or listen to the server
+use  -->  method mounts or puts the specified middleware functions at the specified path. This middleware function will be executed only when the base of the requested path matches the defined path.
