@@ -1,0 +1,15 @@
+--> What is Node ?
+We could run JS in web browser & Node is a JS runtime that execute code outside the web browser 
+
+--> What is Node used for ?
+Web Server 
+Video Games 
+Drone software 
+
+
+--> What is Process in Node js ?
+The process module in Node.js allows us to get information related to the node and control its behavior. This module is globally available, and we can use it to get information such as process ID, version, release, CPU usage, and uptime or perform actions such as killing processes, setting uid, setting groups, unmasking, etc.
+
+--> File System module
+We use file system module to do various operation on file such as craete , remove , add etc.
+

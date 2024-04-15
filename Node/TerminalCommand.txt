@@ -1,0 +1,10 @@
+~ -> shortway to present you are at the home directory.
+ls -> list the directory.
+pwd -> Print working directory (tells about current directory)
+cd directory/ -> to log in other directory.
+cd .. -> to go in previous directory.
+mkdir --> to create new directory.
+touch file name --> make new file in the directory.
+rm file name --> for remove file
+rmdir directory name -> only remove empty directory.
+rm -rf directory --> remove any type directory.
