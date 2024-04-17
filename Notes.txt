@@ -25,3 +25,4 @@ Express is a framework which is help us
 some important functions -->
 listen --> for start or listen to the server
 use  -->  method mounts or puts the specified middleware functions at the specified path. This middleware function will be executed only when the base of the requested path matches the defined path.
+get -> for the get request.
