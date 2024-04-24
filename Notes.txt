@@ -26,3 +26,21 @@ some important functions -->
 listen --> for start or listen to the server
 use  -->  method mounts or puts the specified middleware functions at the specified path. This middleware function will be executed only when the base of the requested path matches the defined path.
 get -> for the get request.
+
+
+GET & POST REQUEST -->
+
+GET --> We use get for requesting resources, a page or retrieve any information. 
+data sent by query string , Info. is plainly visible in the URL
+limited amount of data we can sent.
+
+POST --> Used to post data to the server , Used to write write / create / update
+data sent by request body not string & can send any sort of data
+
+
+WHAT IS REST ?
+Its basically a set of guideline for how a client + server should communicate with each other and perform CRUD operation on given resource.
+
+
+What is Method override ?
+--> Lets you use HTTP verbs such as PUT or Delete in place where client doesn't support.

@@ -1,25 +1,84 @@
 const express = require('express');
 const  app = express();
 const Path = require('path');
-const redditData = require('./data.json');
+const methodOverride = require('method-override');
+const {v4 : uuid} = require('uuid');
+const redditData = require('./assets/data.json');
+let commentData = require('./assets/comments')
 // app.use((req , res)=>
 // {
 //     // console.log("WE GOT THE NEW REQUEST!!!");
 //     res.send('<h1>HELLLOO!!! THIS IS OUR RESPONSE</h1>')
 // })
 
+app.use(express.urlencoded({extended:true}));
+app.use(express.json());
+app.use(methodOverride('_method'));
 app.use(express.static(Path.join(__dirname , 'assets')));
 
-// app.set('view engine','ejs');
+app.set('view engine','ejs');
 app.set('views' , Path.join(__dirname , '/views')); //Recommended
+
+app.get('/comments',(req,res)=>
+{
+    res.render('RestAPI/index.ejs' , {commentData});
+})
+
+app.get('/comments/new',(req,res)=>
+{
+    res.render('RestAPI/new.ejs');
+})
+
+app.post('/comments',(req,res)=>
+{
+    const {username , comment} = req.body;
+    commentData.push({username , comment , id:uuid()});
+    res.redirect('/comments');
+})
+
+app.get('/comments/:id',(req,res)=>
+{
+    const {id} = req.params;
+    const resfind = commentData.find(x => x.id === id);
+    res.render('RestAPI/show.ejs',{resfind});
+})
+
+app.get('/comments/:id/edit',(req,res)=>
+{
+    const {id} = req.params;
+    const comment = commentData.find(x => x.id === id);
+    res.render('RestAPI/Edit.ejs',{comment});
+})
+app.patch('/comments/:id' , (req,res)=>
+{
+    const {id} = req.params;
+    const newCommentText = req.body.Username;
+    const foundComment = commentData.find(x => x.id === id);
+    foundComment.comment = newCommentText;
+    res.redirect('/comments');
+})
+
+app.delete('/comments/:id' , (req,res)=>
+{
+    const {id} = req.params;
+    commentData = commentData.filter(x => x.id !== id);
+    res.redirect('/comments');
+})
+
 app.get('/',(req,res)=>{
     // res.send('THIS IS MY HOMEPAGE');
     const name = 'Devesh Sharma';
     res.render('home.ejs' , {boy : name});
 })
-app.get('/cats',(req,res)=>
+app.get('/tacos',(req,res)=>
 {
-    res.send('MEOW!!!');
+    res.send('GET REQUESTS');
+})
+
+app.post('/tacos',(req,res)=>
+{
+    console.log(req.body);
+    res.send('POST REQUESTS')
 })
 
 app.get('/Math',(req,res)=>

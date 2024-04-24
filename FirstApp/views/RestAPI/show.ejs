@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= resfind.username  %></title>
+</head>
+<body>
+    <h1>Comment: </h1>
+    <p><%= resfind.comment %> - <b><%= resfind.username  %></b></p>
+    <a href='/comments/<%= resfind.id %>/edit'>Edit</a>
+    <br>
+    <form action="/comments/<%= resfind.id %>?_method=DELETE" method="post">
+        <button type="submit">Delete</button>
+    </form>
+    <a href="/comments">Back to comments</a>
+</body>
+</html>
