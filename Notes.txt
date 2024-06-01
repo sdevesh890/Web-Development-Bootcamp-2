@@ -44,3 +44,114 @@ Its basically a set of guideline for how a client + server should communicate wi
 
 What is Method override ?
 --> Lets you use HTTP verbs such as PUT or Delete in place where client doesn't support.
+
+
+                                <-- DATABASE -->
+-> A place where we store our data.
+Type of Database -->
+SQL -> Structured Query Language Database are relational database. we pre-define the schema of tables before we insert anything. i.e -> Postgres , MySQL
+NO-SQL -->NO-SQL Does not use SQL. There are many types of NO sql database like key value and graph stores. --> Mongo , CouchDB , Neo4j
+
+-> Collections: A container of similiar objects in database.
+--> Mongo Shell Commands
+    -> use DatabaseName (To Create DB)
+    -> show databases/dbs (To Show Database)
+    -> show collections
+    -> db.collections_name.find(id) -> to see all objects or object in collections
+
+-> Mongo store data in BSON (Binary JSON) format which is similiar to JSON. Faster than JSON. Stores in Binary of JSON format.
+
+--> INSERTING MONGO
+
+-> db.collections_name.insertOne() -> Single Document insert in Collection
+-> db.collections_name.insertMany() -> Many Document insert in Collection
+-> db.collections_name.insert() --> Single or Many Document in Collection
+
+--> FINDING MONGO
+-> db.collections.find({optional}) -> find one or more Document in collections
+-> db.collections.findOne({optional}) -> find one Document in collections
+
+--> UPDATE MONGO
+-> db.collections.updateOne({$set:{age:5}})
+    $set -> it is type of operator which is used to update value and it also added new parameter.
+-> db.collections.updateMany({$set:{age:5}})    
+-> db.collections.replace({$set:{age:5}})
+
+--> DELETE MONGO
+
+-> db.collections.deleteOne({parameter})
+-> db.collections.deleteMany({parameter})
+
+--> What is Mongoose ?
+    -> Mongoose is an Object Data Modeling (ODM) library for MongoDB. MongoDB is a NoSQL database and Mongoose is used to interact with MongoDB by providing a schema-based solution. The Mongoose acts as the abstraction layer over the MongoDB database. It is generally preferred over using normal MongoDB because it simplifies the process of sending complex queries.
+
+
+-> A Mongoose model is a wrapper of the Mongoose schema. A Mongoose schema defines the document's properties, default values, types of data, validators, etc. In contrast, a Mongoose model provides an interface for the database to create, query, update, delete records, and so on.
+
+
+.save() --> to save your data or new instance in database.
+.inserMany() -> insert many document.
+
+.find({}).then(data=> console.log(data)) --> to find any data.
+.updateOne({year : 1986},{year : 1984}}.then(m=> console.log(m))
+.findOneAndUpdate({},{},{new:true}) --> it will find the data and updated but after execute it will give original data rather than update one so for that to solve problem we have to use optional object that is new which default value is false but we need to setup true.
+
+.deleteOne({}) , .findOneAndDelete({}) --> To delete any data.
+
+
+                    --Schema Validation-- 
+Schema Types -->
+
+name : 
+{
+    type : String , 
+    required: true , 
+    default : "Hello" , 
+    minLength: [0,'Please write something'] , 
+    maxLength : 100 , 
+}
+category : {
+    type : [String],
+    enum : ['Bike','Safety']
+} , 
+ qty : 
+        {
+            online : 
+            {
+                type : Number , 
+                default : 0
+            },
+            offline : 
+            {
+                type : Number , 
+                default : 0
+            }
+        }
+
+
+Product.findOneAndUpdate({name:'BMW'},{price:-1245},{new:true , runValidators: true})
+--> runValidators check the schema Validation at update time by default its value false 
+but we have to changed.
+
+
+--> Model Instance Methods
+
+collections.method.function_name = function()
+{
+    
+}
+
+Mongoose Virtualsc -> They give us ability to add a propties to schema that don't actually exist in the database. 
+
+personSchema.virtual('fullname').get(function()
+{
+    return `${this.first} ${this.last}`
+}).set( function(v)
+{
+    this.first = v.substr(0, v.indexOf(' '));
+    this.last = v.substr(v.indexOf(' ') + 1);
+})
+
+
+middleware -> Middleware (also called pre and post hooks) are functions which are passed control during execution of asynchronous functions. Middleware is specified on the schema level and is useful for writing plugins.
+Why we use Next() -> If the current middleware function does not end the request-response cycle, it must call next() to pass control to the next middleware function. Otherwise, the request will be left hanging.
