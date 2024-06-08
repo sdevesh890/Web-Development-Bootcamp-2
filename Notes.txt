@@ -155,3 +155,7 @@ personSchema.virtual('fullname').get(function()
 
 middleware -> Middleware (also called pre and post hooks) are functions which are passed control during execution of asynchronous functions. Middleware is specified on the schema level and is useful for writing plugins.
 Why we use Next() -> If the current middleware function does not end the request-response cycle, it must call next() to pass control to the next middleware function. Otherwise, the request will be left hanging.
+
+                        <-- What is Middleware -->
+->  Middleware in Express. js is a function that is accessible to the request, response objects and the next middleware function. It can execute any code, terminate the request-response cycle, make needed changes in req and res objects, and detect errors. 
+
