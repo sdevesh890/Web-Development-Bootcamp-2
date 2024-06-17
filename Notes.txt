@@ -159,3 +159,27 @@ Why we use Next() -> If the current middleware function does not end the request
                         <-- What is Middleware -->
 ->  Middleware in Express. js is a function that is accessible to the request, response objects and the next middleware function. It can execute any code, terminate the request-response cycle, make needed changes in req and res objects, and detect errors. 
 
+                <-- Error Handlers -->
+The default error handler -> Express comes with a built-in error handler that takes care of any errors that might be encountered in the app. This default error-handling middleware function is added at the end of the middleware function stack.
+
+Once we throw an error from a function no code would run which is present in the function after throwing the error
+
+const verifyPassword = (req, res, next) => {
+    const { password } = req.query;
+    if (password === 'chickennugget') {
+        next();
+    }
+    console.log("PEEP PEEP")
+    throw new AppError('password requireddd', 401);
+    console.log("APP IS GREAT") // This won't get printed
+}
+So, after throwing the error the control is passed to the error handling middleware, which is the below one in our case
+
+app.use((err, req, res, next) => {
+    console.log("******************************************")
+    console.log("*****************ERROR*****************")
+    console.log("******************************************")
+    console.log(err)
+    next(err)
+})
+Now, when we pass the error to the next function, the default express error handler is going to look at the Error Object (we have AppError but that inherits from Error), and then it extracts the message and status code it requires from the error object that we have passed, and sends it as a response.

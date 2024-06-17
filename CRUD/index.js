@@ -4,6 +4,9 @@ const path = require('path');
 const mongoose = require('mongoose');
 const Product = require('./models/Product');
 const methodOverride = require('method-override');
+const AppError = require('./AppError');
+const ObjectID = require('mongoose').Types.ObjectId;
+
 mongoose.connect('mongodb://127.0.0.1:27017/farmStand')
 .then(()=>
 {
@@ -21,12 +24,15 @@ app.use(methodOverride('_method'));
 
 const categories = ['fruit','vegetable','dairy','Mushroom','eggs'];
 
-app.get('/Products',async (req,res)=>
+app.get('/Products',async (req,res,next)=>
 {
+   try {
     const p = req.query;
-    console.log(p);
     const products = await Product.find({});
     res.render('products/index',{products});
+   } catch (error) {
+        next(error);
+   }
 })
 
 app.get('/Products/new',(req,res)=>
@@ -34,41 +40,75 @@ app.get('/Products/new',(req,res)=>
     res.render('products/new',{categories});
 })
 
-app.post('/Products' , async (req,res)=>
+app.post('/Products' , async (req,res,next)=>
 {
-    const product = new Product(req.body);
-    await product.save();
-    res.redirect('/Products');
+    try{
+        const product = new Product(req.body);
+        await product.save();
+        res.redirect('/Products');
+    }catch(e)
+    {
+        next(e);
+    }
 })
 
 
-app.get('/Products/:id', async (req,res)=>
+app.get('/Products/:id', async (req,res,next)=>
 {
+    try{
     const {id} = req.params;
+    if (!ObjectID.isValid(id)) {
+        throw new AppError('Invalid Id', 400);
+    }
     const product = await Product.findById(id);
+    if(!product)
+    {
+       throw new AppError('Product Not Found',404);
+    }
     res.render('products/show',{product});
+    }catch(e)
+    {
+        next(e);
+    }
 })
 
-app.get('/Products/:id/edit', async (req,res)=>
+app.get('/Products/:id/edit', async (req,res,next)=>
 {
+       try {
         const {id} = req.params;
         const product = await Product.findById(id);
         res.render('products/edit',{product,categories});
+       } catch (error) {
+         next(error);
+       }
 })
 
-app.put('/Products/:id',async (req,res)=>
+app.put('/Products/:id',async (req,res,next)=>
 {
-    const {id} = req.params;
-     await Product.findByIdAndUpdate(id,req.body,{runValidators:true,new : true});
-    res.redirect('/Products');
-
+    try {
+        const {id} = req.params;
+        await Product.findByIdAndUpdate(id,req.body,{runValidators:true,new : true});
+        res.redirect('/Products');
+    } catch (e) {
+        next(e);
+    }
 })
 
-app.delete('/Products/:id',async(req,res)=>
+app.delete('/Products/:id',async(req,res,next)=>
 {
-    const {id} = req.params;
+    try {
+        const {id} = req.params;
     await Product.findByIdAndDelete(id);
     res.redirect('/Products');
+    } catch (error) {
+        next(error);
+    }
+})
+
+app.use((err,req,res,next)=>
+{
+    const {message = 'Something went wrong' , status = 500} = err;
+    res.status(status).send(message);
 })
 
 app.listen(5000,()=>
