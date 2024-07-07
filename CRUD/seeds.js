@@ -47,6 +47,6 @@ const seedProduct = [
     }
 ];
 
- Product.insertMany(seedProduct)
- .then((data)=> console.log(data))
- .catch(err=> console.log(err))
+Product.deleteMany({})
+.then(res=> console.log('DELETED!!'))
+.catch(err => console.log('OOPS !! Error occured'));

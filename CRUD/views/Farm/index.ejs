@@ -1,0 +1,16 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farm Index</title>
+</head>
+<body>
+    <h1>All Farms!</h1>
+    <ul>
+        <% for(farm of farms) { %>
+            <li><a href="/farms/<%= farm._id %>"><%= farm.name %></a></li>
+        <% } %>
+    </ul>
+    <a href="/farms/new">Add new Farm</a>
+</body>
+</html>

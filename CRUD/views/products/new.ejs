@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>Add New Product</h1>
-    <form action="/Products" method="post">
+    <form action="/farms/<%= id %>/products" method="post">
        <label for="prod_name">Name :
         <input type="text" name="name" placeholder="product name" id="prod_name">
        </label>

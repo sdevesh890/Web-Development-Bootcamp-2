@@ -183,3 +183,21 @@ app.use((err, req, res, next) => {
     next(err)
 })
 Now, when we pass the error to the next function, the default express error handler is going to look at the Error Object (we have AppError but that inherits from Error), and then it extracts the message and status code it requires from the error object that we have passed, and sends it as a response.
+
+
+
+
+                --> DATA RELATIONSHIPS WITH MONGO <--
+
+ONE TO FEW -> Embed the data directly into the document e.g - one user have multiple addresses.
+
+ONE TO MANY -> One option is to store your data separately , but then store reference to document ID's somewhere inside the parent.
+
+ONE TO BAJILLIONS -> With thousands and more document , it's more efficient to store a 
+reference to the parents on child document.
+
+What is mongoose populate ?
+The populate() method in Mongoose allows you to retrieve referenced documents and populate fields with their corresponding data.
+
+
+What is Two-way Relationship ?
