@@ -7,6 +7,8 @@ const methodOverride = require("method-override");
 const AppError = require("./AppError");
 const ObjectID = require("mongoose").Types.ObjectId;
 const Farm = require("./models/Farm");
+const flash = require('connect-flash');
+const session = require('express-session');
 
 mongoose
   .connect("mongodb://127.0.0.1:27017/farmStand")
@@ -19,13 +21,22 @@ mongoose
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
+app.use(flash());
+app.use(session({secret:'ANYTHINGSECRET' , resave:false , saveUninitialized : false}));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
 const categories = ["fruit", "vegetable", "dairy", "Mushroom", "eggs"];
 
-// FARM ROUTES
 
+//FLASH MIDDLEWARE
+app.use((req,res,next)=>
+{
+    res.locals.message = req.flash('success');
+    next();
+})
+
+// FARM ROUTES
 app.get("/farms", async (req, res) => {
   const farms = await Farm.find({});
   res.render("Farm/index", { farms });
@@ -38,6 +49,7 @@ app.get("/farms/new", (req, res) => {
 app.post("/farms", async (req, res) => {
   const newFarm = new Farm(req.body);
   await newFarm.save();
+  req.flash('success','Successfully added farm!');
   res.redirect("/farms");
 });
 

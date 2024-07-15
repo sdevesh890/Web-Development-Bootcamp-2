@@ -200,4 +200,53 @@ What is mongoose populate ?
 The populate() method in Mongoose allows you to retrieve referenced documents and populate fields with their corresponding data.
 
 
-What is Two-way Relationship ?
+               <-- Express Router -->
+
+Instead we put all router in one application we can break it router into separate file and group them together thats why express Router is work.
+A router object is an isolated instance of middleware and routes. You can think of it as a “mini-application,” capable only of performing middleware and routing functions. Every Express application has a built-in app router.
+// invoked for any requests passed to this router
+router.use(function (req, res, next) {
+  // .. some logic here .. like any other middleware
+  next()
+})
+
+// will handle any request that ends in /events
+// depends on where the router is "use()'d"
+router.get('/events', function (req, res, next) {
+  // ..
+})
+
+// only requests to /calendar/* will be sent to our "router"
+app.use('/calendar', router)
+
+
+COOKIES --> 
+A cookie (also known as a web cookie or browser cookie) is a small piece of data a server sends to a user's web browser. The browser may store cookies, create new cookies, modify existing ones, and send them back to the same server with later requests. Cookies enable web applications to store limited amounts of data and remember state information; by default the HTTP protocol is stateless.
+
+Cookies can be accessed by the browser user, the site a user is on or by a third party that might use the information for different purposes. Common use cases for cookies include session management, personalization and tracking.
+
+
+signed Cookie -> It make cookie value crypto through HMAC function.
+//VERIFY COOKIE
+app.get('/verifyCookie',(req,res)=>
+{
+    console.log(req.signedCookies);
+    res.send(req.signedCookies);
+});
+
+//SIGNED COOKIE
+app.get('/signedCookie',(req,res)=>
+{
+    res.cookie('fruit','grape',{signed : true});
+    res.send('THIS IS SIGNED COOKIE PAGE');
+});
+
+
+SESSION -> It is not very practical or secure to store your lot of data client-side using cookies. This is where session comes in!
+Session are server side data store that we use to make HTTP stateful. Instead of storing data using cookies, we store the data on server side and then send the browser a cookie that can  be used to retrieve data. 
+
+
+flash -> When you do some action and after you want any message to flash once and disapear after that.
+
+
+Note -> What is res.locals? The app.locals object has properties that are local variables within the application, and will be available in templates rendered with res.render.
