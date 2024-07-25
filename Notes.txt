@@ -250,3 +250,27 @@ flash -> When you do some action and after you want any message to flash once an
 
 
 Note -> What is res.locals? The app.locals object has properties that are local variables within the application, and will be available in templates rendered with res.render.
+
+
+
+Authentication vs Authorization ->
+
+Authentication is a process of verifying who a particular user is. We typically authenticate with username and password but we can also use security questions. facial recognition etc.
+
+Authorization is verifying what a specific user has access to. Generally we authorize after user has been authenticated. "Now that we know who you are. here is what you are allowed to do or not allowed to do."
+
+
+NEVER STORE PASSWORD --> SUPPOSE WE CREATE A APPLICATION SO MANY PEOPLE VISITED IT AND CREAT ACCOUNT. SO WE SHOULD NEVER EVER STORE PASSWORD AS TEXT AS IT.
+
+HASHING THE SOLUTION! -> Rather than storing password in database, we run a password through a Hashing Function first and then store the result in the database.
+Hashing function are function that map input data of some arbitrary size to the fixedsize of output value.
+
+Example --> 
+
+'I LOVE INDIA' -> FN -> '12sde21s2s23s111sd13sd13e1g3h' --> Store in database.
+
+
+THERE SO MANY HASHING FUNCTIONS LIKE BCRYPT , SCRYPT , SHA256.
+
+Password Salt -> It is like adding a random text in password before hashing because its make our hash value more strong.
+
